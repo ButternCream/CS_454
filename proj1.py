@@ -1,6 +1,9 @@
 # make a DFA that accepts strings over {a,b,c} such that eveyr substring
 # of length 4 has at least one occurence of each letter a,b,c.
 
+
+
+
 # how to make DFA
 # hardest part is -  how do i do the transition function
 # create a dictionary. key = state_name + inputsymbol  the element is state_name to switch to
@@ -16,16 +19,18 @@ class st:
 
 # Scott's state class
 class state:
-	def __init__(self, name):
+	def __init__(self, name, parent=None, final=False):
 		"""
 		Constructor
 		:param name: States name
+		:param parent: The parent of the current state
+		:param final: if it's a final state
 		"""
 		self.name = name
 		self.transition_list = dict() # Empty map to append to later. Pretty much a map of state transitions
-		self.parent = None # Parent state
+		self.parent = parent # Parent state
 		self.parent_transition = None # Keep track of the number we transitioned on
-		self.final = False
+		self.final = final
 	def add_transition(self, char, to_state):
 		"""
 		Add transition to current states transition map. Basically delta function
@@ -190,16 +195,20 @@ def count(n):
 	return np.dot(x, np.array(final_vector))
 
 def main():
-	n = int(input("Length = "))
-	print(count(n))
-
-	# Problem 2
-	K = int(input("K = ")) # 13
-	S = input("S = ")# Enter input like S = 2 5 (separated by spaces)
-	S = S.split()
-	S = [int(x) for x in S]
-	dfa = build_dfa(K, S) # K = 13 and S = 2 5 gives us 52 (correct according to ravi)
-	print(find_string(dfa))
-
+	problem = int(input("1) Problem 1\n2) Problem 2\n3) exit\n"))
+	while problem != 3:
+		if problem == 1:
+			n = int(input("n = "))
+			print(count(n), '\n')
+		elif problem == 2:
+			# Problem 2
+			K = int(input("K = ")) # 13
+			S = input("S (Separate by space) = ")# Enter input like S = 2 5 (separated by spaces)
+			S = S.split()
+			S = [int(x) for x in S]
+			dfa = build_dfa(K, S) # K = 13 and S = 2 5 gives us 52 (correct according to ravi)
+			print(find_string(dfa), '\n')
+		problem = int(input("1) Problem 1\n2) Problem 2\n3) exit\n"))
+        
 
 main()
